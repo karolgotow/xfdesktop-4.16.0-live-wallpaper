@@ -63,6 +63,7 @@ write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to ge
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,below
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_pager
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_taskbar
+		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,sticky
 		exit
 	else
 		LIVE_WALLPAPER_PROGRAM_PID=$REPLY

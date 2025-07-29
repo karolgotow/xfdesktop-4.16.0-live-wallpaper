@@ -7,6 +7,7 @@ DESKTOP_WAS_FOCUSED=0
 LIVE_WALLPAPER_PROGRAM_PID=$1
 LIVE_WALLPAPER_PROGRAM_WID=0
 CURRENT_WORKSPACE=0
+FOCUS_DELAY=0
 
 trap "QUIT_FUNC" SIGINT
 
@@ -32,12 +33,21 @@ for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk 
 for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "true"; done
 
 while true; do
-	sleep 0.005
+	sleep 0.01
+	if ! [ -d "/proc/${LIVE_WALLPAPER_PROGRAM_PID}" ]; then
+		REALLY_QUIT
+		QUIT_FUNC
+	fi
 	CURRENT_WORKSPACE=$( xdotool get_desktop )
 	DESKTOP_WAS_FOCUSED=$DESKTOP_FOCUSED
 	DESKTOP_FOCUSED=$( xprop -id $DESKTOP_WID | grep FOCUSED | wc -l )
 	if ((DESKTOP_WAS_FOCUSED==0 )); then
 		if (( DESKTOP_FOCUSED==1 )); then
+			sleep 0.2 #delay & check for flickering errors filtering
+			DESKTOP_FOCUSED=$( xprop -id $DESKTOP_WID | grep FOCUSED | wc -l )
+			if (( DESKTOP_FOCUSED==0 )); then
+				continue
+			fi
 			for ((i = 1 ; i <= $(wmctrl -l | wc -l) ; i++ )); do 
 				if(( $(wmctrl -l -x -G | awk 'NR=='$i'{print $2}') == CURRENT_WORKSPACE )); then
 					if(( $( xprop -id $(wmctrl -l -x -G | awk 'NR=='$i'{print $1}') | grep NET_WM_STATE_ABOVE | wc -l ) == 0 )); then
@@ -50,13 +60,8 @@ while true; do
 wmctrl -r "xfceliveDesktop" -e '0, 0, 0, 0, 0'
 done
 }
-
-function QUIT_FUNC() {
-read -p "
-write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to get back tot his prompt
-"
-	if [[ $REPLY == "QUIT" ]]; then
-		for x in $(xfconf-query -c xfce4-desktop -lv | grep color-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "0"; done
+function REALLY_QUIT() {
+for x in $(xfconf-query -c xfce4-desktop -lv | grep color-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "0"; done
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep image-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "1"; done
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "false"; done
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "true"; done
@@ -64,6 +69,13 @@ write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to ge
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_pager
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_taskbar
 		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,sticky
+}
+function QUIT_FUNC() {
+read -p "
+write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to get back tot his prompt
+"	
+	if [[ $REPLY == "QUIT" ]]; then
+		REALLY_QUIT
 		exit
 	else
 		LIVE_WALLPAPER_PROGRAM_PID=$REPLY
@@ -72,7 +84,5 @@ write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to ge
 }
 
 QUIT_FUNC
-
-MAIN_FUNC
 
 exit

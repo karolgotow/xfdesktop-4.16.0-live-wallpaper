@@ -22,6 +22,7 @@ wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,sticky
 wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,below
 wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,skip_pager
 wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,skip_taskbar
+wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,hidden
 
 #those fors for settings are borrowed from xfce forum post here @ ToZ
 #https://forum.xfce.org/viewtopic.php?pid=73547#p73547

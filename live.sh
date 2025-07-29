@@ -1,6 +1,5 @@
-#program written by karol.gotowala for my personal usage, feel free to use it anyway You like, I dont take reposnibility for damage caused and bad usage :)
-
 #!/bin/bash
+#program written by karol.gotowala for my personal usage, feel free to use it anyway You like, I dont take reposnibility for damage caused and bad usage :)
 
 DESKTOP_WID=0
 DESKTOP_FOCUSED=0
@@ -10,24 +9,6 @@ LIVE_WALLPAPER_PROGRAM_WID=0
 CURRENT_WORKSPACE=0
 
 trap "QUIT_FUNC" SIGINT
-
-function QUIT_FUNC() {
-read -p "
-write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to get back tot his prompt
-"
-	if [[ $REPLY == "QUIT" ]]; then
-		for x in $(xfconf-query -c xfce4-desktop -lv | grep color-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "0"; done
-		for x in $(xfconf-query -c xfce4-desktop -lv | grep image-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "1"; done
-		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "false"; done
-		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "true"; done
-		exit
-	else
-		LIVE_WALLPAPER_PROGRAM_PID=$REPLY
-		MAIN_FUNC
-	fi
-}
-
-QUIT_FUNC
 
 function MAIN_FUNC() {
 LIVE_WALLPAPER_PROGRAM_WID=$( wmctrl -lp | grep $LIVE_WALLPAPER_PROGRAM_PID | awk 'NR==1{print $1}' )
@@ -68,6 +49,24 @@ while true; do
 wmctrl -r "xfceliveDesktop" -e '0, 0, 0, 0, 0'
 done
 }
+
+function QUIT_FUNC() {
+read -p "
+write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to get back tot his prompt
+"
+	if [[ $REPLY == "QUIT" ]]; then
+		for x in $(xfconf-query -c xfce4-desktop -lv | grep color-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "0"; done
+		for x in $(xfconf-query -c xfce4-desktop -lv | grep image-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "1"; done
+		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "false"; done
+		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "true"; done
+		exit
+	else
+		LIVE_WALLPAPER_PROGRAM_PID=$REPLY
+		MAIN_FUNC
+	fi
+}
+
+QUIT_FUNC
 
 MAIN_FUNC
 

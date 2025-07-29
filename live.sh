@@ -59,6 +59,9 @@ write QUIT to quit or put a PID of program to set as live wallpaper CTRL+C to ge
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep image-style | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "1"; done
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "false"; done
 		for x in $(xfconf-query -c xfce4-desktop -lv | grep single-workspace-mode | awk '{print $1}'); do xfconf-query -c xfce4-desktop -p $x -s "true"; done
+		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,below
+		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_pager
+		wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,skip_taskbar
 		exit
 	else
 		LIVE_WALLPAPER_PROGRAM_PID=$REPLY

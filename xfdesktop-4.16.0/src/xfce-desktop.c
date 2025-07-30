@@ -1148,12 +1148,6 @@ xfce_desktop_get_property(GObject *object,
     }
 }
 
-
-
-
-
-
-
 static void
 xfce_desktop_realize(GtkWidget *widget)
 {
@@ -1166,23 +1160,12 @@ xfce_desktop_realize(GtkWidget *widget)
 
     TRACE("entering");
 
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////v
 ////////TO ROBI 32 BPP////////////////////////////////v
 ////////////////////////////////////////////////////////////////
 
     GdkVisual *visual;
     GdkScreen *screen;
-
-
-
 
 screen = gtk_widget_get_screen (GTK_WIDGET (desktop));
 
@@ -1191,26 +1174,9 @@ gtk_widget_set_visual (GTK_WIDGET (desktop), visual);
 
 gtk_widget_set_app_paintable (GTK_WIDGET (desktop), TRUE);
 
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////TO ROBI 32 BPP////////////////
 ////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
 
     gtk_window_set_screen(GTK_WINDOW(desktop), desktop->priv->gscreen);
     xfdesktop_get_screen_dimensions (desktop->priv->gscreen, &sw, &sh);
@@ -1223,22 +1189,10 @@ gtk_widget_set_app_paintable (GTK_WIDGET (desktop), TRUE);
     /* chain up */
     GTK_WIDGET_CLASS(xfce_desktop_parent_class)->realize(widget);
 
-
-
-
-
-
-
-
-
     gtk_window_set_title(GTK_WINDOW(desktop), _("xfceliveDesktop"));
     gtk_window_set_decorated(GTK_WINDOW(desktop), FALSE);
     gtk_widget_set_size_request(GTK_WIDGET(desktop), sw, sh);
     gtk_window_move(GTK_WINDOW(desktop), 0, 0);
-
-
-
-
 
    /* gtk_window_set_title(GTK_WINDOW(desktop), _("Desktop"));
     gtk_window_set_decorated(GTK_WINDOW(desktop), FALSE);
@@ -1251,56 +1205,15 @@ gtk_widget_set_app_paintable (GTK_WIDGET (desktop), TRUE);
             gdk_atom_intern("ATOM", FALSE), 32,
             GDK_PROP_MODE_REPLACE, (guchar *)&atom, 1); //<-- tu bylo 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 gtk_window_set_keep_below (
   GTK_WINDOW(desktop),
   FALSE
 );
 
-
-
 gtk_window_set_resizable (
   GTK_WINDOW(desktop),
   FALSE
 );
-
-
 
 gtk_window_set_skip_taskbar_hint (
   GTK_WINDOW(desktop),
@@ -1312,17 +1225,11 @@ gtk_window_set_skip_pager_hint (
   TRUE
 );
 
-
 gtk_window_stick (
   GTK_WINDOW(desktop)
 );
 
-
-
     gtk_window_set_type_hint(GTK_WINDOW(desktop), GDK_WINDOW_TYPE_HINT_DESKTOP);
-
-
-
 
     xid = GDK_WINDOW_XID(gtk_widget_get_window(GTK_WIDGET(desktop)));
     groot = gdk_screen_get_root_window(desktop->priv->gscreen);
@@ -1365,26 +1272,6 @@ gtk_window_stick (
             G_CALLBACK(screen_composited_changed_cb), desktop);
 
     gtk_widget_add_events(GTK_WIDGET(desktop), GDK_EXPOSURE_MASK);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #ifdef ENABLE_DESKTOP_ICONS
     xfce_desktop_setup_icon_view(desktop);
@@ -2084,19 +1971,6 @@ xfce_desktop_refresh(XfceDesktop *desktop, gboolean advance_wallpaper)
     }
 
     current_workspace = xfce_desktop_get_current_workspace(desktop);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /* reload backgrounds */
     for(i = 0; i < xfce_desktop_get_n_monitors(desktop); i++) {

@@ -1,5 +1,4 @@
 #!/bin/bash
-#even faster emthod by glitvhing window composition order tho not guaranteed to work on every configuration
 #program written by karol.gotowala for my personal usage, feel free to use it anyway You like, I dont take reposnibility for damage caused and bad usage :)
 
 DESKTOP_WID=0
@@ -126,6 +125,8 @@ while true; do
 			fi
 						if ((DESKTOP_WAS_FOCUSED==1 )); then
 			if (( LIVE_FOCUSED==1 )); then
+					wmctrl -r "xfceliveDesktop" -b add,above
+					wmctrl -r "xfceliveDesktop" -b remove,below
 					wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,above
 					wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,below
 					wmctrl -r "xfceliveDesktop" -b remove,above

@@ -46,18 +46,20 @@ function MAIN_FUNC() {
 		DESKTOP_FOCUSED=$( xprop -id $DESKTOP_WID | grep FOCUSED | wc -l )
 		if ((DESKTOP_WAS_FOCUSED==0 )); then
 			if (( DESKTOP_FOCUSED==1 )); then
-				sleep 0.2 #delay & check for flickering errors filtering
+				sleep 0.85 #delay & check for flickering errors filtering
 				DESKTOP_FOCUSED=$( xprop -id $DESKTOP_WID | grep FOCUSED | wc -l )
 				if (( DESKTOP_FOCUSED==0 )); then
+					DESKTOP_WAS_FOCUSED=$DESKTOP_FOCUSED
 					continue
-				fi
-				for ((i = 1 ; i <= $(wmctrl -l | wc -l) ; i++ )); do 
-					if(( $(wmctrl -l -x -G | awk 'NR=='$i'{print $2}') == CURRENT_WORKSPACE )); then
-						if(( $( xprop -id $(wmctrl -l -x -G | awk 'NR=='$i'{print $1}') | grep NET_WM_STATE_ABOVE | wc -l ) == 0 )); then
-							wmctrl -i -r $(wmctrl -l -x -G | awk 'NR=='$i'{print $1}') -b add,hidden
+				else
+					for ((i = 1 ; i <= $(wmctrl -l | wc -l) ; i++ )); do 
+						if(( $(wmctrl -l -x -G | awk 'NR=='$i'{print $2}') == CURRENT_WORKSPACE )); then
+							if(( $( xprop -id $(wmctrl -l -x -G | awk 'NR=='$i'{print $1}') | grep NET_WM_STATE_ABOVE | wc -l ) == 0 )); then
+								wait $( wmctrl -i -r $(wmctrl -l -x -G | awk 'NR=='$i'{print $1}') -b add,hidden )
+							fi
 						fi
-					fi
-				done
+					done
+				fi
 			fi
 		fi
 	wait $( wmctrl -r "xfceliveDesktop" -e '0, 0, 0, 0, 0' )

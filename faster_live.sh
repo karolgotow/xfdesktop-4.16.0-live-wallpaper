@@ -49,7 +49,7 @@ while true; do
 		NORMAL_WALLPAPER
 		DESKTOP_WID=$(wmctrl -l -x -G | grep xfceliveDesktop | awk 'NR==1{print $1}')
 		while [[ $REPLY_GLOBAL == "NORMAL" ]]; do
-			sleep 0.006
+			sleep 0.005
 			DESKTOP_WAS_FOCUSED=$DESKTOP_FOCUSED
 			DESKTOP_FOCUSED=$( xprop -id $DESKTOP_WID | grep FOCUSED | wc -l )
 			if ((DESKTOP_WAS_FOCUSED==0 )); then
@@ -99,7 +99,7 @@ while true; do
 					wmctrl -r "xfceliveDesktop" -b add,below
 
 		while ! [[ $REPLY_GLOBAL == "NORMAL" || $REPLY_GLOBAL == "QUIT" ]]; do
-			sleep 0.006
+			sleep 0.005
 			if ! [ -d "/proc/${LIVE_WALLPAPER_PROGRAM_PID}" ]; then
 				REPLY_GLOBAL="NORMAL"
 				LIVE_WALLPAPER_PROGRAM_PID=0
@@ -123,16 +123,11 @@ while true; do
 					wmctrl -r "xfceliveDesktop" -b add,below
 				fi
 			fi
-						if ((DESKTOP_WAS_FOCUSED==1 )); then
-			if (( LIVE_FOCUSED==1 )); then
-					wmctrl -r "xfceliveDesktop" -b add,above
-					wmctrl -r "xfceliveDesktop" -b remove,below
-					wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b remove,above
-					wmctrl -i -r $LIVE_WALLPAPER_PROGRAM_WID -b add,below
-					wmctrl -r "xfceliveDesktop" -b remove,above
-					wmctrl -r "xfceliveDesktop" -b add,below
+			#if ((DESKTOP_WAS_FOCUSED==1 )); then
+				if (( LIVE_FOCUSED==1 )); then
+					wmctrl -a "xfceliveDesktop"
 				fi
-			fi
+			#fi
 					#wmctrl -r "xfceliveDesktop" -b remove,below
 		wait $( wmctrl -r "xfceliveDesktop" -e '0, 0, 0, 0, 0' )
 		done

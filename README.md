@@ -9,4 +9,5 @@ basically its vanilla xfdesktop program modified to run ANYTHING as livewallpape
 
 # HOW IT WORKS:
 
-[![preview](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/blob/main/preview.png?raw=true)](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/blob/main/presentation.mp4)
+[![preview](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/blob/main/preview.png?raw=true)](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/raw/refs/heads/main/presentation.mp4)
+

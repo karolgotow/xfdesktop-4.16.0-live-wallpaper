@@ -8,8 +8,9 @@ basically its vanilla xfdesktop program modified to run ANYTHING as livewallpape
 2. use script live.sh to attach a program as live wallpaper
 
 # HOW IT WORKS:
-<video width="640" height="360" controls>
+<video width="640" height="360" controls poster="preview.jpg">
   <source src="presentation.mp4" type="video/mp4">
 </video>
+
 
 

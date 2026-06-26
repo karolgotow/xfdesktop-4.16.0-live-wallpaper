@@ -9,6 +9,7 @@ basically its vanilla xfdesktop program modified to run ANYTHING as livewallpape
 
 # HOW IT WORKS:
 <video width="640" height="360" controls>
-  <source src="[nazwa_twojego_pliku.mp4](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/blob/main/presentation.mp4)" type="video/mp4">
+  <source src="presentation.mp4" type="video/mp4">
 </video>
+
 

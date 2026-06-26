@@ -8,4 +8,7 @@ basically its vanilla xfdesktop program modified to run ANYTHING as livewallpape
 2. use script live.sh to attach a program as live wallpaper
 
 # HOW IT WORKS:
-presentation.mp4 is a protip
+<video width="640" height="360" controls>
+  <source src="[nazwa_twojego_pliku.mp4](https://github.com/karolgotow/xfdesktop-4.16.0-live-wallpaper/blob/main/presentation.mp4)" type="video/mp4">
+</video>
+
